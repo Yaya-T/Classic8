@@ -29,7 +29,7 @@ import joblib,os
 import pandas as pd
 
 # Vectorizer
-news_vectorizer = open("Data/vectoriser-ngram-(1,2).pkl","rb")
+news_vectorizer = open("Data/vectoriser.pkl","rb")
 tweet_cv = joblib.load(news_vectorizer) # loading your vectorizer from the pkl file
 
 # Load your raw data
