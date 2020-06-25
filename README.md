@@ -11,7 +11,13 @@ Train.csv - is the dataset that is used to train the model. Test.csv - is the da
 The dataset aggregates tweets pertaining to climate change collected between Apr 27, 2015 and Feb 21, 2018. In total, 43943 tweets were collected.
 
 # Packages/Modules needed for the model
+nltk.download() - The Natural Language Toolkit (NLTK) is a platform that assists us in building Python programs that work with human language data for applying in statistical natural language processing (NLP).It contains text processing libraries for tokenization, parsing, classification, stemming, tagging and semantic reasoning.
+
+These text processing libraries allow us to form accurate analysis based on the tweets concerning climate change.
 
 # Installations before running model
+pip install wordcloud - A Wordcloud is a visual representation of text data. It displays a list of words, the importance of each being shown with font size or color. Significant textual data points can be highlighted using a word cloud.
+
+pip install streamlit  - 
 
 # Streamlit app
