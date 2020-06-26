@@ -21,15 +21,23 @@
 	https://docs.streamlit.io/en/latest/
 
 """
+
 # Streamlit dependencies
 import streamlit as st
 import joblib,os
 import pickle
-import markdown as md
+import markdown
 
 # Data dependencies
 import pandas as pd
 
+# nltk
+from nltk.tokenize import word_tokenize, TreebankWordTokenizer
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from nltk.stem import SnowballStemmer
+import nltk
+import re
 
     
 # Load the vectoriser.
@@ -93,9 +101,9 @@ def main():
 		# Creating a text box for user input
 		tweet_text = st.text_area("Enter Text","Type Here")
 
-		if st.button("Classify"):
+		if st.button("LinearSVC"):
 			# Transforming user input with vectorizer
-			vect_text = tweet_cv.transform([tweet_text]).toarray()
+			vect_text = vectoriser.transform([tweet_text]).toarray()
 			# Load your .pkl file with the model of your choice + make predictions
 			# Try loading in multiple models to give the user a choice
 			predictor = joblib.load(open(os.path.join("Data/LinearSVC.pkl"),"rb"))
@@ -103,7 +111,7 @@ def main():
 			st.success("Text Categorized as: {}".format(prediction))
 		if st.button('Logistic'):
 			# Transforming user input with vectorizer
-			vect_text = tweet_cv.transform([tweet_text]).toarray()
+			vect_text = vectoriser.transform([tweet_text]).toarray()
 			# Load your .pkl file with the model of your choice + make predictions
 			# Try loading in multiple models to give the user a choice
 			predictor = joblib.load(open(os.path.join("Data/LogisticRegression.pkl"),"rb"))
@@ -111,7 +119,7 @@ def main():
 			st.success("Text Categorized as: {}".format(prediction))
 		if st.button('Bernuoli'):
 			# Transforming user input with vectorizer
-			vect_text = tweet_cv.transform([tweet_text]).toarray()
+			vect_text = vectoriser.transform([tweet_text]).toarray()
 			# Load your .pkl file with the model of your choice + make predictions
 			# Try loading in multiple models to give the user a choice
 			predictor = joblib.load(open(os.path.join("Data/BNBmodel.pkl"),"rb"))
@@ -119,7 +127,7 @@ def main():
 			st.success("Text Categorized as: {}".format(prediction))
 		if st.button('SVC'):
 			# Transforming user input with vectorizer
-			vect_text = tweet_cv.transform([tweet_text]).toarray()
+			vect_text = vectoriser.transform([tweet_text]).toarray()
 			# Load your .pkl file with the model of your choice + make predictions
 			# Try loading in multiple models to give the user a choice
 			predictor = joblib.load(open(os.path.join("Data/SVC.pkl"),"rb"))
@@ -127,7 +135,7 @@ def main():
 			st.success("Text Categorized as: {}".format(prediction))
 		if st.button('MultiNB'):
 			# Transforming user input with vectorizer
-			vect_text = tweet_cv.transform([tweet_text]).toarray()
+			vect_text = vectoriser.transform([tweet_text]).toarray()
 			# Load your .pkl file with the model of your choice + make predictions
 			# Try loading in multiple models to give the user a choice
 			predictor = joblib.load(open(os.path.join("Data/MultinomialNB.pkl"),"rb"))
