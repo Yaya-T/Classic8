@@ -24,16 +24,44 @@
 # Streamlit dependencies
 import streamlit as st
 import joblib,os
+import pickle
+import markdown as md
 
 # Data dependencies
 import pandas as pd
 
-# Vectorizer
-news_vectorizer = open("Data/vectoriser.pkl","rb")
-tweet_cv = joblib.load(news_vectorizer) # loading your vectorizer from the pkl file
 
+    
+# Load the vectoriser.
+file = open("Data/vectoriser.pkl","rb")
+vectoriser = pickle.load(file)
+file.close()
 # Load your raw data
-raw = pd.read_csv("Data/train.csv")
+train = pd.read_csv("Data/train.csv")
+
+pattern_url = r'http[s]?://(?:[A-Za-z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9A-Fa-f][0-9A-Fa-f]))+'
+subs_url = r'url-web'
+train['message'] = train['message'] .replace(to_replace = pattern_url, value = subs_url, regex = True)
+#test['message'] = test['message'] .replace(to_replace = pattern_url, value = subs_url, regex = True)
+
+stop_words = set(stopwords.words("english")) 
+lemmatizer = WordNetLemmatizer()
+
+def clean_text(text):
+    text = re.sub('<[^<]+?>','', text)
+    text = re.sub(r'[^\w\s]','',text, re.UNICODE)
+    text = text.lower()
+    text = [lemmatizer.lemmatize(token) for token in text.split(" ")]
+    text = [lemmatizer.lemmatize(token, "v") for token in text]
+    text = [word for word in text if not word in stop_words]
+    text = " ".join(text)
+    return text
+
+train['Processed_message'] = train.message.apply(lambda x: clean_text(x))
+
+#test['Processed_message'] = test.message.apply(lambda x: clean_text(x))
+
+
 
 # The main function where we will build the actual app
 def main():
@@ -53,11 +81,11 @@ def main():
 	if selection == "Information":
 		st.info("General Information")
 		# You can read a markdown file from supporting resources folder
-		st.markdown("Some information here")
+		st.markdown("Data/info.md")
 
 		st.subheader("Raw Twitter data and label")
 		if st.checkbox('Show raw data'): # data is hidden if box is unchecked
-			st.write(raw[['sentiment', 'message']]) # will write the df to the page
+			st.write(train[['sentiment', 'message']]) # will write the df to the page
 
 	# Building out the predication page
 	if selection == "Prediction":
@@ -72,28 +100,32 @@ def main():
 			# Try loading in multiple models to give the user a choice
 			predictor = joblib.load(open(os.path.join("Data/LinearSVC.pkl"),"rb"))
 			prediction = predictor.predict(vect_text)
-		elif st.button('Logistic'):
+			st.success("Text Categorized as: {}".format(prediction))
+		if st.button('Logistic'):
 			# Transforming user input with vectorizer
 			vect_text = tweet_cv.transform([tweet_text]).toarray()
 			# Load your .pkl file with the model of your choice + make predictions
 			# Try loading in multiple models to give the user a choice
 			predictor = joblib.load(open(os.path.join("Data/LogisticRegression.pkl"),"rb"))
 			prediction = predictor.predict(vect_text)
-		elif st.button('Bernuoli'):
+			st.success("Text Categorized as: {}".format(prediction))
+		if st.button('Bernuoli'):
 			# Transforming user input with vectorizer
 			vect_text = tweet_cv.transform([tweet_text]).toarray()
 			# Load your .pkl file with the model of your choice + make predictions
 			# Try loading in multiple models to give the user a choice
 			predictor = joblib.load(open(os.path.join("Data/BNBmodel.pkl"),"rb"))
 			prediction = predictor.predict(vect_text)
-		elif st.button('SVC'):
+			st.success("Text Categorized as: {}".format(prediction))
+		if st.button('SVC'):
 			# Transforming user input with vectorizer
 			vect_text = tweet_cv.transform([tweet_text]).toarray()
 			# Load your .pkl file with the model of your choice + make predictions
 			# Try loading in multiple models to give the user a choice
 			predictor = joblib.load(open(os.path.join("Data/SVC.pkl"),"rb"))
 			prediction = predictor.predict(vect_text)
-		elif st.button('MultiNB'):
+			st.success("Text Categorized as: {}".format(prediction))
+		if st.button('MultiNB'):
 			# Transforming user input with vectorizer
 			vect_text = tweet_cv.transform([tweet_text]).toarray()
 			# Load your .pkl file with the model of your choice + make predictions
