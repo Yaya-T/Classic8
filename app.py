@@ -51,7 +51,7 @@ subs_url = r'url-web'
 train['message'] = train['message'] .replace(to_replace = pattern_url, value = subs_url, regex = True)
 #test['message'] = test['message'] .replace(to_replace = pattern_url, value = subs_url, regex = True)
 
-stop_words = set(stopwords.words("english")) 
+stop_words = set(nltk.download(stopwords.words("english"))) 
 lemmatizer = WordNetLemmatizer()
 
 def clean_text(text):
