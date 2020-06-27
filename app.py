@@ -39,7 +39,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk.stem import SnowballStemmer
 import nltk
 import re
-nltk.donwmload()
+#nltk.donwmload()
     
 # Load the vectoriser.
 file = open("Data/vectoriser.pkl","rb")
