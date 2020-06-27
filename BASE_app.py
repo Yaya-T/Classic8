@@ -73,8 +73,8 @@ train['Processed_message'] = train.message.apply(lambda x: clean_text(x))
 
 # The main function where we will build the actual app
 def main():
-	"""Tweet Classifier App with Streamlit """
-
+	html_temp = """<div style="background-color:purple;"><p style="color:white;font-size:50px;padding:10px">Tweet Classifier App</p></div>"""
+	st.markdown(html_temp,unsafe_allow_html=True)
 	# Creates a main title and subheader on your page -
 	# these are static across all pages
 	st.title("Tweet Classifer")
@@ -84,6 +84,10 @@ def main():
 	# you can create multiple pages this way
 	options = ["Prediction", "Information", "Models"]
 	selection = st.sidebar.selectbox("Choose Option", options)
+	if selection == "Models":
+		st.info('The infomation about the models')
+		# You can read a markdown file from supporting resources folder
+		st.markdonw("information abaout the models ")
 
 	# Building out the "Information" page
 	if selection == "Information":
@@ -99,9 +103,11 @@ def main():
 	if selection == "Prediction":
 		st.info("Prediction with ML Models")
 		# Creating a text box for user input
-		tweet_text = st.text_area("Enter Text","Type Here")
+		tweet_text = st.text_area("Enter Text/Tweet","Type Here")
 
-		if st.button("LinearSVC"):
+	
+
+		if st.checkbox("LinearSVC"):
 			# Transforming user input with vectorizer
 			vect_text = vectoriser.transform([tweet_text]).toarray()
 			# Load your .pkl file with the model of your choice + make predictions
@@ -109,7 +115,7 @@ def main():
 			predictor = joblib.load(open(os.path.join("Data/LinearSVC.pkl"),"rb"))
 			prediction = predictor.predict(vect_text)
 			st.success("Text Categorized as: {}".format(prediction))
-		if st.button('Logistic'):
+		if st.checkbox('Logistic'):
 			# Transforming user input with vectorizer
 			vect_text = vectoriser.transform([tweet_text]).toarray()
 			# Load your .pkl file with the model of your choice + make predictions
@@ -117,7 +123,7 @@ def main():
 			predictor = joblib.load(open(os.path.join("Data/LogisticRegression.pkl"),"rb"))
 			prediction = predictor.predict(vect_text)
 			st.success("Text Categorized as: {}".format(prediction))
-		if st.button('Bernuoli'):
+		if st.checkbox('Bernuoli'):
 			# Transforming user input with vectorizer
 			vect_text = vectoriser.transform([tweet_text]).toarray()
 			# Load your .pkl file with the model of your choice + make predictions
@@ -125,7 +131,7 @@ def main():
 			predictor = joblib.load(open(os.path.join("Data/BNBmodel.pkl"),"rb"))
 			prediction = predictor.predict(vect_text)
 			st.success("Text Categorized as: {}".format(prediction))
-		if st.button('SVC'):
+		if st.checkbox('SVC'):
 			# Transforming user input with vectorizer
 			vect_text = vectoriser.transform([tweet_text]).toarray()
 			# Load your .pkl file with the model of your choice + make predictions
@@ -133,7 +139,7 @@ def main():
 			predictor = joblib.load(open(os.path.join("Data/SVC.pkl"),"rb"))
 			prediction = predictor.predict(vect_text)
 			st.success("Text Categorized as: {}".format(prediction))
-		if st.button('MultiNB'):
+		if st.checkbox('MultiNB'):
 			# Transforming user input with vectorizer
 			vect_text = vectoriser.transform([tweet_text]).toarray()
 			# Load your .pkl file with the model of your choice + make predictions
