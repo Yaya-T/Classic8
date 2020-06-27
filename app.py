@@ -50,7 +50,7 @@ pattern_url = r'http[s]?://(?:[A-Za-z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9A-Fa-f]
 subs_url = r'url-web'
 train['message'] = train['message'] .replace(to_replace = pattern_url, value = subs_url, regex = True)
 #test['message'] = test['message'] .replace(to_replace = pattern_url, value = subs_url, regex = True)
-nltk.download(stopwords)
+nltk.download('stopwords')
 stop_words = set(stopwords.words("english")) 
 lemmatizer = WordNetLemmatizer()
 
