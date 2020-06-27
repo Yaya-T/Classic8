@@ -31,7 +31,7 @@ import pickle
 import pandas as pd
 
 
-
+nltk.download('wordnet')
 # nltk
 from nltk.tokenize import word_tokenize, TreebankWordTokenizer
 from nltk.corpus import stopwords
