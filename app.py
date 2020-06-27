@@ -26,7 +26,6 @@
 import streamlit as st
 import joblib,os
 import pickle
-import markdown
 
 # Data dependencies
 import pandas as pd
