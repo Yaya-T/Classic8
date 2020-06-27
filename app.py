@@ -30,7 +30,7 @@ import pickle
 # Data dependencies
 import pandas as pd
 
-nltk.download()
+
 
 # nltk
 from nltk.tokenize import word_tokenize, TreebankWordTokenizer
@@ -39,7 +39,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk.stem import SnowballStemmer
 import nltk
 import re
-
+nltk.donwmload()
     
 # Load the vectoriser.
 file = open("Data/vectoriser.pkl","rb")
