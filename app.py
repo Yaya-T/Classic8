@@ -30,7 +30,7 @@ import pickle
 # Data dependencies
 import pandas as pd
 
-
+import nltk
 nltk.download('wordnet')
 # nltk
 from nltk.tokenize import word_tokenize, TreebankWordTokenizer
