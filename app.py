@@ -21,11 +21,13 @@
 	https://docs.streamlit.io/en/latest/
 
 """
-#pip install nltk
 # Streamlit dependencies
 import streamlit as st
 import joblib,os
 import pickle
+import markdown
+#import matplotlib.pyplot as plt
+#import seaborn as sns
 
 # Data dependencies
 import pandas as pd
@@ -39,19 +41,20 @@ from nltk.stem import WordNetLemmatizer
 from nltk.stem import SnowballStemmer
 import nltk
 import re
-#nltk.donwmload()
-    
+
+
 # Load the vectoriser.
 file = open("Data/vectoriser.pkl","rb")
 vectoriser = pickle.load(file)
 file.close()
 # Load your raw data
 train = pd.read_csv("Data/train.csv")
+test = pd.read_csv("Data/test.csv")
 
 pattern_url = r'http[s]?://(?:[A-Za-z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9A-Fa-f][0-9A-Fa-f]))+'
 subs_url = r'url-web'
 train['message'] = train['message'] .replace(to_replace = pattern_url, value = subs_url, regex = True)
-#test['message'] = test['message'] .replace(to_replace = pattern_url, value = subs_url, regex = True)
+test['message'] = test['message'] .replace(to_replace = pattern_url, value = subs_url, regex = True)
 
 stop_words = set(stopwords.words("english")) 
 lemmatizer = WordNetLemmatizer()
@@ -68,13 +71,14 @@ def clean_text(text):
 
 train['Processed_message'] = train.message.apply(lambda x: clean_text(x))
 
-#test['Processed_message'] = test.message.apply(lambda x: clean_text(x))
+test['Processed_message'] = test.message.apply(lambda x: clean_text(x))
 
 
 
 # The main function where we will build the actual app
 def main():
-	html_temp = """<div style="background-color:purple;"><p style="color:white;font-size:50px;padding:10px">Tweet Classifier App</p></div>"""
+	
+	html_temp = """<div style="background-color:tansparent;"><div class="header-category__background" style="background-image: url('https://img.freepik.com/free-photo/pile-3d-twitter-logos_1379-879.jpg?size=620&ext=jpg');"><p style="color:white;font-size:50px;padding:50px">TWEET CLASSIFIER</p></div>"""
 	st.markdown(html_temp,unsafe_allow_html=True)
 	# Creates a main title and subheader on your page -
 	# these are static across all pages
@@ -83,22 +87,37 @@ def main():
 
 	# Creating sidebar with selection box -
 	# you can create multiple pages this way
+	
 	options = ["Prediction", "Information", "Models"]
 	selection = st.sidebar.selectbox("Choose Option", options)
 	if selection == "Models":
 		st.info('The infomation about the models')
 		# You can read a markdown file from supporting resources folder
-		st.markdonw("information abaout the models ")
+		html = markdown.markdown(open("Data/models.md").read())
+		st.markdown(html, unsafe_allow_html=True )
 
 	# Building out the "Information" page
 	if selection == "Information":
 		st.info("General Information")
 		# You can read a markdown file from supporting resources folder
-		st.markdown("Data/info.md")
+		html = markdown.markdown(open("Data/info.md").read())
+		st.markdown(html, unsafe_allow_html=True)
 
 		st.subheader("Raw Twitter data and label")
 		if st.checkbox('Show raw data'): # data is hidden if box is unchecked
 			st.write(train[['sentiment', 'message']]) # will write the df to the page
+
+		#st.subheader("The frequency of tweets in each sentiments")
+		#if st.checkbox('The frequency of tweets'): # data is hidden if box is unchecked
+			#dist_class = train['sentiment'].value_counts()
+			#labels=[1,2,0,-1]
+			#sns.color_palette('hls')
+			# Bar graph plot
+			#sns.barplot(x=dist_class.index, y=dist_class, data = train).set_title("Tweet message distribution over the sentiments")
+        	#y_axis_label= Count
+        	#x_axis_label= Sentiment
+        	#plt.show()
+
 
 	# Building out the predication page
 	if selection == "Prediction":
@@ -124,14 +143,7 @@ def main():
 			predictor = joblib.load(open(os.path.join("Data/LogisticRegression.pkl"),"rb"))
 			prediction = predictor.predict(vect_text)
 			st.success("Text Categorized as: {}".format(prediction))
-		if st.checkbox('Bernuoli'):
-			# Transforming user input with vectorizer
-			vect_text = vectoriser.transform([tweet_text]).toarray()
-			# Load your .pkl file with the model of your choice + make predictions
-			# Try loading in multiple models to give the user a choice
-			predictor = joblib.load(open(os.path.join("Data/BNBmodel.pkl"),"rb"))
-			prediction = predictor.predict(vect_text)
-			st.success("Text Categorized as: {}".format(prediction))
+	
 		if st.checkbox('SVC'):
 			# Transforming user input with vectorizer
 			vect_text = vectoriser.transform([tweet_text]).toarray()
