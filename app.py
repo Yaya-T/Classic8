@@ -21,13 +21,15 @@
 	https://docs.streamlit.io/en/latest/
 
 """
+#programs/to/python -m pip install wordcloud
+
 # Streamlit dependencies
 import streamlit as st
 import joblib,os
 import pickle
 import markdown
-#import matplotlib.pyplot as plt
-#import seaborn as sns
+import matplotlib.pyplot as plt
+from PIL import Image
 
 # Data dependencies
 import pandas as pd
@@ -42,7 +44,7 @@ from nltk.stem import SnowballStemmer
 import nltk
 import re
 
-
+#<img src="https://ichef.bbci.co.uk/news/208/cpsprodpb/F4D0/production/_110627626_trump_climate_quotesv7_976-nc.png" width=90%>
 # Load the vectoriser.
 file = open("Data/vectoriser.pkl","rb")
 vectoriser = pickle.load(file)
@@ -78,17 +80,18 @@ test['Processed_message'] = test.message.apply(lambda x: clean_text(x))
 # The main function where we will build the actual app
 def main():
 	
+ #"""<img src="https://ichef.bbci.co.uk/news/208/cpsprodpb/F4D0/production/_110627626_trump_climate_quotesv7_976-nc.png" width=90%>"""
+
 	html_temp = """<div style="background-color:tansparent;"><div class="header-category__background" style="background-image: url('https://img.freepik.com/free-photo/pile-3d-twitter-logos_1379-879.jpg?size=620&ext=jpg');"><p style="color:white;font-size:50px;padding:50px">TWEET CLASSIFIER</p></div>"""
 	st.markdown(html_temp,unsafe_allow_html=True)
 	# Creates a main title and subheader on your page -
 	# these are static across all pages
-	st.title("Tweet Classifer")
-	st.subheader("Climate change tweet classification")
-
+	image = ("![Alt Text](https://ichef.bbci.co.uk/news/208/cpsprodpb/F4D0/production/_110627626_trump_climate_quotesv7_976-nc.png)")
+	st.markdown(image, unsafe_allow_html=True)
 	# Creating sidebar with selection box -
 	# you can create multiple pages this way
-	
-	options = ["Prediction", "Information", "Models"]
+	st.subheader("Climate change tweet classification")
+	options = ["Prediction", "Information", "Models", "EDA"]
 	selection = st.sidebar.selectbox("Choose Option", options)
 	if selection == "Models":
 		st.info('The infomation about the models')
@@ -107,26 +110,28 @@ def main():
 		if st.checkbox('Show raw data'): # data is hidden if box is unchecked
 			st.write(train[['sentiment', 'message']]) # will write the df to the page
 
-		#st.subheader("The frequency of tweets in each sentiments")
-		#if st.checkbox('The frequency of tweets'): # data is hidden if box is unchecked
-			#dist_class = train['sentiment'].value_counts()
-			#labels=[1,2,0,-1]
-			#sns.color_palette('hls')
-			# Bar graph plot
-			#sns.barplot(x=dist_class.index, y=dist_class, data = train).set_title("Tweet message distribution over the sentiments")
-        	#y_axis_label= Count
-        	#x_axis_label= Sentiment
-        	#plt.show()
-
-
+	if selection =="EDA":
+		st.subheader("The Visualizations used to explore the raw and processed tweeter data")
+		if st.checkbox('The popular words used in the Tweets message data'): # data is hidden if box is unchecked
+			image = Image.open('joint_cloud.png')
+			st.image(image, caption='WORD CLOUD ', use_column_width=True)
+		if st.checkbox('Tweet message distribution over the sentiments pie chart'): # data is hidden if box is unchecked
+			image = Image.open('Tweet message distribution over the sentiments bar chart.png')
+			st.image(image, caption='Tweet message distribution over the sentiments bar chart', use_column_width=True)
+		if st.checkbox('Tweet message distribution over the sentiments bar chart'): # data is hidden if box is unchecked
+			image = Image.open('Tweet message distribution over the sentiments.png')
+			st.image(image, caption='Tweet message distribution over the sentiments ', use_column_width=True)
+		if st.checkbox('The count of word used in the Tweets message data'): # data is hidden if box is unchecked
+			image = Image.open('wordcount_bar.png')
+			st.image(image, caption='WORD COUNT BAR', use_column_width=True)
+		
+	
 	# Building out the predication page
 	if selection == "Prediction":
 		st.info("Prediction with ML Models")
 		# Creating a text box for user input
 		tweet_text = st.text_area("Enter Text/Tweet","Type Here")
-
-	
-
+		st.subheader("Select a check box of the model you wish to use to classify your tweet")
 		if st.checkbox("LinearSVC"):
 			# Transforming user input with vectorizer
 			vect_text = vectoriser.transform([tweet_text]).toarray()
