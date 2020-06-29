@@ -21,7 +21,6 @@
 	https://docs.streamlit.io/en/latest/
 
 """
-!pip install markdown
 
 # Streamlit dependencies
 import streamlit as st
