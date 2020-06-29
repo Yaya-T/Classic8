@@ -15,9 +15,22 @@ nltk.download() - The Natural Language Toolkit (NLTK) is a platform that assists
 
 These text processing libraries allow us to form accurate analysis based on the tweets concerning climate change.
 
+
 # Installations before running model
 pip install wordcloud - A Wordcloud is a visual representation of text data. It displays a list of words, the importance of each being shown with font size or color. Significant textual data points can be highlighted using a word cloud.
 
-pip install streamlit  - 
+pip install imblearn - Imblearn offers a number of re-sampling techniques commonly used in datasets showing strong between-class imbalance. This helps balance our data and resulting in increased overall model accuracy.
+
 
 # Streamlit app
+pip install streamlit
+
+URL - http://54.195.174.19:5000/
+
+# Comet experiments
+pip install comet_ml
+
+URL_1 - https://www.comet.ml/jolinda-hub/general/d253d0d6498a494985c9bd87a1b9980b
+
+URL_2 - https://www.comet.ml/jolinda-hub/general/8f32339a191e4948b663df745eb01b81
+
