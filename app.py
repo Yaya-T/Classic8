@@ -81,8 +81,8 @@ def main():
 	html_temp = """<div style="background-color:tansparent;"><div class="header-category__background" style="background-image: url('https://img.freepik.com/free-photo/pile-3d-twitter-logos_1379-879.jpg?size=620&ext=jpg');"><p style="color:white;font-size:50px;padding:50px">TWEET CLASSIFIER</p></div>"""
 	st.markdown(html_temp,unsafe_allow_html=True)
 	# Creates a main title and subheader on your page -
-	# these are static across all pages
-	image = Image.open('_110627626_trump_climate_quotesv7_976-nc.pngss').convert('RGB')
+	# these are static across all pagesss
+	image = Image.open('_110627626_trump_climate_quotesv7_976-nc.png').convert('RGB')
 	st.image(image, caption='TRUMP TWEET QOUTES', use_column_width=True)
 	# Creating sidebar with selection box -
 	# you can create multiple pages this way
