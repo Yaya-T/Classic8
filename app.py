@@ -21,8 +21,7 @@
 	https://docs.streamlit.io/en/latest/
 
 """
-#programs/to/python -m pip install wordcloud
-
+pip install markdown
 # Streamlit dependencies
 import streamlit as st
 import joblib,os
@@ -44,7 +43,6 @@ from nltk.stem import SnowballStemmer
 import nltk
 import re
 
-#<img src="https://ichef.bbci.co.uk/news/208/cpsprodpb/F4D0/production/_110627626_trump_climate_quotesv7_976-nc.png" width=90%>
 # Load the vectoriser.
 file = open("Data/vectoriser.pkl","rb")
 vectoriser = pickle.load(file)
