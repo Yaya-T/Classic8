@@ -78,14 +78,12 @@ test['Processed_message'] = test.message.apply(lambda x: clean_text(x))
 # The main function where we will build the actual app
 def main():
 	
- #"""<img src="https://ichef.bbci.co.uk/news/208/cpsprodpb/F4D0/production/_110627626_trump_climate_quotesv7_976-nc.png" width=90%>"""
-
 	html_temp = """<div style="background-color:tansparent;"><div class="header-category__background" style="background-image: url('https://img.freepik.com/free-photo/pile-3d-twitter-logos_1379-879.jpg?size=620&ext=jpg');"><p style="color:white;font-size:50px;padding:50px">TWEET CLASSIFIER</p></div>"""
 	st.markdown(html_temp,unsafe_allow_html=True)
 	# Creates a main title and subheader on your page -
 	# these are static across all pages
-	image = ("![Alt Text](https://ichef.bbci.co.uk/news/208/cpsprodpb/F4D0/production/_110627626_trump_climate_quotesv7_976-nc.png)")
-	st.markdown(image, unsafe_allow_html=True)
+	image = Image.open('_110627626_trump_climate_quotesv7_976-nc.pngss').convert('RGB')
+	st.image(image, caption='TRUMP TWEET QOUTES', use_column_width=True)
 	# Creating sidebar with selection box -
 	# you can create multiple pages this way
 	st.subheader("Climate change tweet classification")
@@ -138,6 +136,7 @@ def main():
 			predictor = joblib.load(open(os.path.join("Data/LinearSVC.pkl"),"rb"))
 			prediction = predictor.predict(vect_text)
 			st.success("Text Categorized as: {}".format(prediction))
+			st.balloons()
 		if st.checkbox('Logistic'):
 			# Transforming user input with vectorizer
 			vect_text = vectoriser.transform([tweet_text]).toarray()
@@ -146,6 +145,7 @@ def main():
 			predictor = joblib.load(open(os.path.join("Data/LogisticRegression.pkl"),"rb"))
 			prediction = predictor.predict(vect_text)
 			st.success("Text Categorized as: {}".format(prediction))
+			st.balloons()
 	
 		if st.checkbox('SVC'):
 			# Transforming user input with vectorizer
@@ -155,6 +155,7 @@ def main():
 			predictor = joblib.load(open(os.path.join("Data/SVC.pkl"),"rb"))
 			prediction = predictor.predict(vect_text)
 			st.success("Text Categorized as: {}".format(prediction))
+			st.balloons()
 		if st.checkbox('MultiNB'):
 			# Transforming user input with vectorizer
 			vect_text = vectoriser.transform([tweet_text]).toarray()
@@ -167,6 +168,7 @@ def main():
 			# You can use a dictionary or similar structure to make this output
 			# more human interpretable.
 			st.success("Text Categorized as: {}".format(prediction))
+			st.balloons()
 
 # Required to let Streamlit instantiate our web app.  
 if __name__ == '__main__':
